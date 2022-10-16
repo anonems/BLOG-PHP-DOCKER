@@ -2,8 +2,8 @@
 session_start();
 require("../cobdd.php");
 if( $_SESSION["connecte"] === true){
-    echo "<script>window.location.href='../index.php'</script>";
     if(($_SERVER["REQUEST_METHOD"] == "POST")){
+
         //CREATE
             if(isset($_POST['create'])){
                 $title = filter_input(INPUT_POST, "title");
@@ -25,8 +25,9 @@ if( $_SESSION["connecte"] === true){
                         'illustration' => $illustration, 
                         'descript' => $descript
                     ));
+                    echo "<script>location.href='../index.php'</script>";
                 }elseif($verifuse){
-                    echo "<span style='color:red'>This title already use! choice an other. <a id='login_bt' style='text-decoration:none;' href='./index.php'>HOME</a></span>";
+                    echo "<script>alert('This ptitle already use! choice an other.');location.href='../index.php';</script>"; //log n'existe pas ou combo incorrect
                 }
             }
 
@@ -55,8 +56,9 @@ if( $_SESSION["connecte"] === true){
                         'descript' => $descript,
                         'choice' => $choice
                     ));
+                    echo "<script>location.href='../index.php'</script>";
                 }elseif($verifuse){
-                    echo "<span style='color:red'>This title already use! choice an other. <a id='login_bt' style='text-decoration:none;' href='./index.php'>HOME</a></span>";
+                    echo "<script>alert('This title already use! choice an other.');location.href='../index.php';</script>"; //log n'existe pas ou combo incorrect
                 }
             }
 
@@ -66,8 +68,21 @@ if( $_SESSION["connecte"] === true){
                     $choice = filter_input(INPUT_POST, "choice");
                     $maRequete7 = $pdo->prepare("DELETE FROM article WHERE id=:choice");
                     $maRequete7->execute(['choice' => $choice]);
+                    echo "<script>location.href='../index.php'</script>";
                 }
             }
+        
+        //DELETE USER (on suprime l'user et tous ses articles)
+        if(($_SERVER["REQUEST_METHOD"] == "POST") && ($_SESSION["username"] =='test')){
+            if(isset($_POST['delete_user'])){
+                $choice = filter_input(INPUT_POST, "choice");
+                $maRequete7 = $pdo->prepare("DELETE FROM user WHERE username=:choice ");
+                $maRequete7->execute(['choice' => $choice]);
+                $maRequete8 = $pdo->prepare("DELETE FROM article WHERE author=:choice ");
+                $maRequete8->execute(['choice' => $choice]);
+                echo "<script>location.href='../index.php'</script>";
+            }
+        }
 
     }
 }
