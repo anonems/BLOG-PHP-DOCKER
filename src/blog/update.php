@@ -1,36 +1,11 @@
-<?php
-if( $_SESSION["connecte"] === true){
-    if(($_SERVER["REQUEST_METHOD"] == "POST")){
-        if(isset($_POST['update'])){
-            $title = filter_input(INPUT_POST, "title");
-            $content = filter_input(INPUT_POST, "content");
-            $category = filter_input(INPUT_POST, "category");
-            $illustration = filter_input(INPUT_POST, "illustration");
-            $descript = filter_input(INPUT_POST, "descript");
-            $choice = filter_input(INPUT_POST, "choice");
-            $createRequete = $pdo->prepare("SELECT title FROM article WHERE title = :title ");
-            $createRequete->execute(['title' => $title]);
-            $verifuse = $createRequete->fetch(); 
-            if (!$verifuse){
-                $verifUseRequete = $pdo->prepare("UPDATE article SET author = :username, title = :title, content = :content, category = :category, illustration = :illustration, descript = :descript WHERE id = :choice ");
-                $verifUseRequete->execute(array(
-                    'username' => $_SESSION['username'],
-                    'title'=> $title,
-                    'content' => $content,
-                    'category' => $category,
-                    'illustration' => $illustration, 
-                    'descript' => $descript,
-                    'choice' => $choice
-                ));
-                header('Location: ../index.php');
-            }elseif($verifuse){
-                echo "<span style='color:red'>This title already use! choice an other.</span>";
-            }
-        }
-    } ?>
-        <form method="post" >
+<div>
+    <center><h2>Update an article</h2></center>
+    <center style="margin:20px">You want cancel ? <a id="login_bt" style="text-decoration:none;" href="./index.php">HOME</a></center>
+    <form action="./middleware/crud.php" method="post" style="display:grid; gap:20px">
+        <center>
+        <div style="grid-row:1; " >
             <label >Choise an article to update :</label>
-            <select name="choice" require>
+            <select name="choice" required>
             <option selected>choice</option>
             <?php
                 $username = $_SESSION["username"];
@@ -42,19 +17,31 @@ if( $_SESSION["connecte"] === true){
                     <option value="<?=$poste['id']?>"><?=$poste['title']?></option>
                     <?php endforeach; ?>
             </select>
-            <label >New title</label>
-            <input type="text" name="title">
+    </div>
+        </center>
+        <div style="grid-row:2; " >
+            <label >New article title</label>
+            <input type="text"  name="title" required>
+        </div>
+        <div style="grid-row:3; grid-column:1" >
             <label >New description</label>
-            <input type="text" name="descript">
+            <input type="text" name="descript" required>
+        </div>
+        <div style="grid-row:4; grid-column:1" >
             <label >New illustration</label>
-            <input type="url" name="illustration">
+            <input type="url" name="illustration" required>
+        </div>
+        <div style="grid-row:2; grid-column:2" >
             <label >New content</label>
-            <textarea name="content" ></textarea>
-            <label >Category</label>
-            <select name="category">
+            <input type="texte" name="content" required>
+        </div>
+        <div style="grid-row:3; grid-column:2" >
+            <label >New Category</label>
+            <select name="category"required>
                 <option selected>Choice</option>
                 <option value="ecolo">écologie</option>
             </select>
-            <button type="submit" name="update">Submit</button>
-        </form>
-<?php } ?>
+        </div>
+        <button style="grid-row:4; grid-column:2"  type="submit" name="update">Submit</button>
+    </form>
+</div>

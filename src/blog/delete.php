@@ -1,16 +1,9 @@
-<?php
-if( $_SESSION["connecte"] === true){
-    if(($_SERVER["REQUEST_METHOD"] == "POST")){
-        if(isset($_POST['delete'])){
-            $choice = filter_input(INPUT_POST, "choice");
-            $maRequete7 = $pdo->prepare("DELETE FROM article WHERE choice=:choice");
-            $maRequete7->execute(['choice' => $choice]);
-            include('./auth/login.php');
-        }
-    }
-?>
-            <form action="" method="post" >
-                <label >Choise an article to delete :</label>
+
+            <div>
+    <center><h2>Delete an article</h2></center>
+    <center style="margin:20px">You want cancel ? <a id="login_bt" style="text-decoration:none;" href="./index.php">HOME</a></center>
+            <form action="./middleware/crud.php" method="post" >
+                <label >Choice an article to delete :</label>
                 <select name="choice" require>
                 <option selected>choice</option>
                 <?php
@@ -26,4 +19,4 @@ if( $_SESSION["connecte"] === true){
                 
                 <button type="submit" name="delete">Delete</button>
             </form>
-<?php } ?>
+            </div>

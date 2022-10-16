@@ -1,5 +1,4 @@
 <?php
-if( $_SESSION["connecte"] === true){
     $username = $_SESSION["username"];
     $maRequete = $pdo->prepare("SELECT * FROM article ORDER BY pubdate DESC");
     $maRequete->execute();
@@ -13,7 +12,7 @@ if( $_SESSION["connecte"] === true){
                         <img src="<?=$poste['illustration']?>">
                     </div>
                     <div class="blog-slider__content">
-                        <span class="blog-slider__code"><?=$poste['pubdate']?> by @<?=$poste['author']?></span>
+                        <span class="blog-slider__code"><?=$poste['pubdate']?> by @<?=$poste['author']?> <a id='login_bt' style='text-decoration:none;' href='./index.php'>HOME</a></span>
                         <div class="blog-slider__title"><?=$poste['title']?></div>
                         <div class="blog-slider__text"><?=$poste['descript']?></div>
                         <a href="./blog/read_more.php?id=<?=$poste['id']?>" class="blog-slider__button">READ MORE</a>
@@ -22,4 +21,3 @@ if( $_SESSION["connecte"] === true){
         <?php }; 
         endforeach;
 }else{echo 'None';}?>
-<?php } ?>

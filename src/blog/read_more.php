@@ -2,7 +2,6 @@
 session_start();
 if( $_SESSION["connecte"] === true){
     require('../cobdd.php');
-    $username = $_SESSION["username"];
 ?>
 <!DOCTYPE html>
 <html lang="fr" >
@@ -20,7 +19,6 @@ if( $_SESSION["connecte"] === true){
     <div class="blog-slider">
         <div class="blog-slider__wrp swiper-wrapper">
         <?php
-                require('../cobdd.php');
                 $username = $_SESSION["username"];
                 $id = filter_input(INPUT_GET, "id");
                 $maRequete = $pdo->prepare("SELECT * FROM article WHERE id = :id");
@@ -32,7 +30,7 @@ if( $_SESSION["connecte"] === true){
                     <img src="<?=$postes['illustration']?>">
                 </div>
                 <div class="blog-slider__content">
-                    <span class="blog-slider__code"><?=$postes['pubdate']?> by @<?=$postes['author']?></span>
+                    <span class="blog-slider__code"><?=$postes['pubdate']?> by @<?=$postes['author']?> <a id='login_bt' style='text-decoration:none;' href='../index.php'>HOME</a></span>
                     <div class="blog-slider__title"><?=$postes['title']?></div>
                     <div class="blog-slider__text"><?=$postes['content']?></div>
                 </div>
