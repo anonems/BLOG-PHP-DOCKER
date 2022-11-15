@@ -17,7 +17,7 @@ services:
             MYSQL_DATABASE: blog
             MYSQL_ROOT_PASSWORD: password
         volumes:
-            - ./database/blog.sql:/docker-entrypoint-initdb.d/dump.sql
+            - ./database/blog.sql:/docker-entrypoint-initdb.d/blog.sql
             - db_data:/var/lib/mysql
 
 
